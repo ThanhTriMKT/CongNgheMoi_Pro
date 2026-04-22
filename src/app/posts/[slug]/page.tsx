@@ -6,6 +6,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { CommentForm } from "@/components/posts/comment-form";
 import { RealtimeComments } from "@/components/posts/realtime-comments";
+import { LikeButton } from "@/components/posts/like-button";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -73,6 +74,12 @@ export default async function PostPage({ params }: PostPageProps) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  // Lấy likes
+  const { count: likeCount } = await supabase
+    .from("likes")
+    .select("*", { count: "exact", head: true })
+    .eq("post_id", post.id);
 
   return (
     <main style={{ padding: "48px 0 96px", position: "relative", zIndex: 1 }}>
@@ -150,8 +157,14 @@ export default async function PostPage({ params }: PostPageProps) {
             fontSize: "1.1rem",
             lineHeight: 1.8,
             color: "var(--clr-text)",
+            marginBottom: "40px"
           }}>
             <ReactMarkdown>{post.content || ""}</ReactMarkdown>
+          </div>
+
+          {/* Like Button area */}
+          <div style={{ display: "flex", justifyContent: "center", borderTop: "2px dashed var(--clr-border)", paddingTop: "32px" }}>
+             <LikeButton postId={post.id} initialLikeCount={likeCount || 0} />
           </div>
         </article>
 
