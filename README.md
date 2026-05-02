@@ -1,66 +1,50 @@
 # 📝 Simple Blog
 
-Ứng dụng blog cá nhân full-stack xây dựng với **Next.JS 15** và **Supabase**.  
-Đây là project thực hành cho môn **Các công nghệ mới trong phát triển phần mềm** — Buổi 4/8.
+Đây là dự án blog cá nhân full-stack được xây dựng bằng **Next.js 15** và **Supabase** (Thực hành cho môn Các công nghệ mới trong phát triển phần mềm).
 
 ---
 
-## ✨ Tính năng & Thiết kế Độc bản
-Project đã được cập nhật với thiết kế **Playful Claymorphism** — kết hợp màu sắc pastel, hiệu ứng đổ bóng mềm mại và bo góc kiểu đất sét (clay-morphism) mang lại cảm giác cao cấp và hiện đại.
+## 🛠 Hướng dẫn Khởi chạy Web
 
-| Tính năng | Mô tả | Công nghệ |
-|---|---|---|
-| **Trang chủ** | Danh sách bài viết + **Tìm kiếm & Phân trang** | Next.js ISR, Supabase, ilike |
-| **Chi tiết bài viết** | Nội dung Markdown + **Hệ thống Like** | ReactMarkdown, Like system |
-| **Bình luận** | **Realtime comments** (hiện ngay lập tức) | Supabase Realtime Channels |
-| **OAuth** | Đăng nhập bằng GitHub | Supabase Auth OAuth |
-| **Hồ sơ cá nhân** | Trang cá nhân với xem trước Avatar | Supabase Storage & Profiles |
-| **Dashboard** | Quản lý toàn bộ bài viết của bạn | CRUD, RLS protection |
+Do dự án sử dụng **Supabase bản Miễn phí** để quản lý cơ sở dữ liệu (Database), nếu sau một thời gian ngắn không có kết nối nào hoặc không ai truy cập, hệ thống Supabase sẽ tự động bị **Tạm dừng (Paused)** để tiết kiệm tài nguyên. 
 
----
+**VUI LÒNG ĐỌC KỸ VÀ LÀM ĐÚNG THỨ TỰ CÁC BƯỚC SAU ƯỚC KHI CHẠY CODE:**
 
-## 🛠 Hướng dẫn Cấu hình Quan trọng (Database sẳn sàng)
+### Bước 1: Mở / Khôi phục Database (Supabase)
+**Đây là bước bắt buộc.** Nếu bỏ qua bước này, trang web sẽ bị lỗi tải mãi không lên và in ra lỗi `ECONNREFUSED` trong Terminal.
 
-Để ứng dụng hoạt động 100%, bạn cần thực hiện 3 bước tại **Supabase Dashboard**:
+1. Truy cập vào trang quản lý: **[Supabase Dashboard](https://supabase.com/dashboard)**.
+2. Đăng nhập bằng tài khoản của bạn (thường là tài khoản GitHub đã dùng để tạo project này).
+3. Trong màn hình Dashboard, tìm project có tên của bạn (URL API hiện tại đang sử dụng là `https://jpcdckzvulhqgyupmqxy.supabase.co`).
+4. Nếu thấy chữ **"Paused"** màu cam/đỏ xuất hiện, hãy nhấn ngay vào đó.
+5. Click chọn nút **"Restore project"** (hoặc **"Unpause"**) và chờ khoảng 1 - 2 phút cho đến khi trạng thái chuyển sang màu xanh lá (Active).
 
-1.  **Chạy SQL Schema**: Copy nội dung file `supabase/schema.sql` dán vào SQL Editor và nhấn **Run**.
-2.  **Bật Realtime**: Vào **Database -> Publications**, edit `supabase_realtime` và tích chọn bảng `comments`.
-3.  **Cấu hình Redirect**: Vào **Authentication -> URL Configuration**, thêm `http://localhost:3000/**` vào Redirect URLs.
+### Bước 2: Khởi chạy dự án trên máy tính
+Khi bảo đảm Supabase đã chạy lại bình thường ở bước 1, bạn mở máy tính lên và làm tiếp:
 
----
-
-## 🚀 Hoàn thành toàn bộ Bài tập (8/8)
-
-- [x] **Bài 1.1** — Khởi tạo project và kết nối Supabase thành công.
-- [x] **Bài 2.1** — Tạo schema đầy đủ các bảng (`profiles`, `posts`, `comments`, `likes`).
-- [x] **Bài 3.1** — Cấu hình RLS Policies bảo mật cấp database.
-- [x] **Bài 4.1** — Tính năng "Quên mật khẩu" hoạt động ổn định.
-- [x] **Bài 7.1** — Trang Profile cá nhân với thiết kế Claymorphism.
-- [x] **Bài 7.2** — Hệ thống Like bài viết với real-time feedback.
-- [x] **Bài 5.1** — **Phân trang (pagination)** cho trang chủ.
-- [x] **Bài 7.4** — **Tìm kiếm full-text** bài viết theo tiêu đề.
-
----
-
-## 📁 Cấu trúc Project (Highlight các components mới)
-
-```text
-simple-blog/
-├── src/
-│   ├── app/
-│   │   ├── page.tsx               # Trang chủ (đã có Search & Pagination)
-│   │   ├── posts/[slug]/page.tsx  # Chi tiết bài + Like Button
-│   │   └── profile/page.tsx       # Trang cá nhân cao cấp
-│   ├── components/
-│   │   ├── posts/
-│   │   │   ├── like-button.tsx    # Component Like mượt mà
-│   │   │   └── comment-list.tsx   # Danh sách comment đồng bộ Clay
-│   │   └── auth/                  # Form đăng nhập/ký kiểu Clay
-│   └── globals.css                # Design System: Bubbly & Soft
-└── supabase/
-    └── schema.sql                 # File SQL để khởi tạo Database
-```
+1. **Mở Terminal** của máy Mac (Dùng `Cmd + Space` > gõ "Terminal" > nhấn Enter).
+2. Di chuyển vào thư mục code:
+   ```bash
+   cd /Applications/Mac/CongNgheMoi_Pro/simple-blog
+   ```
+3. **Nếu chưa cài đặt** (chỉ cần làm 1 lần), chạy lệnh tải các gói thư viện:
+   ```bash
+   npm install
+   ```
+4. **Khởi động server dự án**:
+   ```bash
+   npm run dev
+   ```
+5. Cuối cùng, mở trình duyệt (Google Chrome, Cốc Cốc, Safari...) và vào địa chỉ sau:  
+   👉 **[http://localhost:3000](http://localhost:3000)**
 
 ---
 
-> Bài thực hành 4 — Môn: Các công nghệ mới trong phát triển phần mềm
+## 🛑 Khắc phục lỗi
+
+**Lỗi 1: Web xoay tròn mãi không chịu tải, trong Terminal báo "fetch failed" hoặc "ECONNREFUSED".**
+* **Nguyên nhân:** Có thể Database trên Supabase chưa kịp khôi phục hoặc lại bị Pause.
+* **Cách sửa:** Bạn phải vào lại Supabase Dashboard làm theo Bước 1 để bật lại database, sau đó ra ngoài tải lại trang web là sẽ hết.
+
+**Lỗi 2: Lỗi chưa lưu biến môi trường**
+* Hãy chắc chắn rằng bạn có file `.env.local` ở trong thư mục `simple-blog` và bên trong đó phải chứa các khoá `NEXT_PUBLIC_SUPABASE_URL` và `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
